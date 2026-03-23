@@ -4,6 +4,8 @@
 -- See the kickstart.nvim README for more information
 
 -- Discord Presence
+---@module 'lazy'
+---@type LazySpec
 return {
   {
     'andweeb/presence.nvim',
