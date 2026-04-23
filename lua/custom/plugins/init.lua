@@ -27,6 +27,43 @@ return {
     opts = {},
   },
 
+  -- AI assistant (Claude via subscription, local qwen3.6-35b via llama-swap)
+  {
+    'yetone/avante.nvim',
+    event = 'VeryLazy',
+    version = false,
+    build = 'make',
+    ---@module 'avante'
+    ---@type avante.Config
+    opts = {
+      provider = 'claude',
+      providers = {
+        claude = {
+          endpoint = 'https://api.anthropic.com',
+          model = 'claude-sonnet-4-20250514',
+          auth_type = 'max', -- uses Claude Pro/Max subscription, no API key needed
+          extra_request_body = {
+            temperature = 0.75,
+            max_tokens = 20480,
+          },
+        },
+        -- Local model via llama-swap (OpenAI-compatible, port 11434)
+        -- Switch to it with :AvanteSwitchProvider local_llm
+        local_llm = {
+          __inherited_from = 'openai',
+          endpoint = 'http://127.0.0.1:11434/v1',
+          model = 'qwen3.6-35b',
+          api_key = 'sk-dummy-key',
+        },
+      },
+    },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim',
+      'nvim-telescope/telescope.nvim',
+    },
+  },
+
   -- Catppuccin Theme
   {
     'catppuccin/nvim',
