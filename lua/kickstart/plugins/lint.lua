@@ -8,7 +8,14 @@ return {
   config = function()
     local lint = require 'lint'
     lint.linters_by_ft = {
-      markdown = { 'markdownlint' }, -- Make sure to install `markdownlint` via mason / npm
+      markdown = { 'markdownlint' }, -- npm install -g markdownlint-cli
+      python = { 'ruff' }, -- mason: ruff
+      javascript = { 'eslint_d' }, -- mason: eslint_d
+      typescript = { 'eslint_d' },
+      javascriptreact = { 'eslint_d' },
+      typescriptreact = { 'eslint_d' },
+      sh = { 'shellcheck' }, -- mason: shellcheck
+      bash = { 'shellcheck' },
     }
 
     -- To allow other plugins to add linters to require('lint').linters_by_ft,
