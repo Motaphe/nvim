@@ -9,21 +9,16 @@
 return {
   {
     'andweeb/presence.nvim',
+    event = 'VeryLazy',
     config = function()
       require('presence').setup {}
     end,
   },
 
-  -- Highlight TODO/FIXME/NOTE/HACK comments and search them via Telescope
-  {
-    'folke/todo-comments.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    opts = {},
-  },
-
   -- ActivityWatch time tracker
   {
     'lowitea/aw-watcher.nvim',
+    event = 'VeryLazy',
     opts = {},
   },
 
