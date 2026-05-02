@@ -237,6 +237,14 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
+-- Disable LSP diagnostics for GTK/Waybar CSS files (they use non-standard @variable syntax)
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = vim.fn.expand('~') .. '/.config/waybar/**',
+  callback = function()
+    vim.diagnostic.enable(false, { bufnr = 0 })
+  end,
+})
+
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -654,7 +662,13 @@ require('lazy').setup({
         pyright = {},
         ts_ls = {},
         html = {},
-        cssls = {},
+        cssls = {
+          settings = {
+            css = { validate = true, lint = { unknownAtRules = 'ignore' } },
+            scss = { validate = true, lint = { unknownAtRules = 'ignore' } },
+            less = { validate = true, lint = { unknownAtRules = 'ignore' } },
+          },
+        },
         bashls = {},
         -- rust_analyzer = {},
         --
