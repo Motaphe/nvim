@@ -178,7 +178,12 @@ vim.o.confirm = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Custom keymaps
-vim.api.nvim_set_keymap('n', '<leader>r', ':w<CR>:!python3 %<CR>', { noremap = true, silent = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'python',
+  callback = function()
+    vim.keymap.set('n', '<leader>r', ':w<CR>:!python3 %<CR>', { buffer = true, silent = true, desc = '[R]un Python file' })
+  end,
+})
 
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
@@ -237,13 +242,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
--- Disable LSP diagnostics for GTK/Waybar CSS files (they use non-standard @variable syntax)
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-  pattern = vim.fn.expand('~') .. '/.config/waybar/**',
-  callback = function()
-    vim.diagnostic.enable(false, { bufnr = 0 })
-  end,
-})
+-- Waybar CSS uses non-standard @variable syntax; unknownAtRules is already silenced in cssls settings above.
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
@@ -669,6 +668,7 @@ require('lazy').setup({
             less = { validate = true, lint = { unknownAtRules = 'ignore' } },
           },
         },
+        marksman = {},
         bashls = {},
         -- rust_analyzer = {},
         --
@@ -728,7 +728,7 @@ require('lazy').setup({
         'prettierd',
         'prettier',
         'shfmt',
-        'markdownlint',
+        'markdownlint-cli2',
         'ruff',
         'eslint_d',
         'shellcheck',
@@ -815,7 +815,6 @@ require('lazy').setup({
     'saghen/blink.cmp',
     event = 'VimEnter',
     version = '1.*',
-    build = 'cargo build --release',
     dependencies = {
       -- Snippet Engine
       {

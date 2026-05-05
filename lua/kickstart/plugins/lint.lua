@@ -8,7 +8,7 @@ return {
   config = function()
     local lint = require 'lint'
     lint.linters_by_ft = {
-      markdown = { 'markdownlint' }, -- npm install -g markdownlint-cli
+      markdown = { 'markdownlint-cli2' },
       python = { 'ruff' }, -- mason: ruff
       javascript = { 'eslint_d' }, -- mason: eslint_d
       typescript = { 'eslint_d' },
@@ -53,7 +53,7 @@ return {
     -- Create autocommand which carries out the actual linting
     -- on the specified events.
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
+    vim.api.nvim_create_autocmd({ 'BufWritePost', 'InsertLeave' }, {
       group = lint_augroup,
       callback = function()
         -- Only run the linter in buffers that you can modify in order to
